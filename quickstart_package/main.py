@@ -298,6 +298,7 @@ if __name__ == '__main__':
     dataset_df = pd.read_csv('/home/sunji/EM_sigmod/total_with_key_type.csv')
     #pairs_df = get_block_pairs_df(dataset_df)
     pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/candidate_pairs_with_key_type.csv')
+#    pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/candidate_pairs_with_key_type.csv')
     matching_pairs_df = compute_matching(pairs_df, dataset_df)
     # Save the submission as CSV file in the outputh_path
     matching_pairs_df.to_csv(outputh_path + '/submission.csv', index=False)
