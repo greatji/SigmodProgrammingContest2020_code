@@ -221,10 +221,14 @@ def product_match(row):
     left_number = [''.join(re.findall(r'\d+', x)) for x in left_type]
     right_number = [''.join(re.findall(r'\d+', x)) for x in right_type]
     for t in range(len(right_type)):
-        if len(left_number[0]) > 0 and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
+        if len(left_number[0]) > 0 and left_number[0] != '1' and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
+            return 1
+        if left_type[0] == right_type[t]:
             return 1
     for t in range(len(left_type)):
-        if len(right_number[0]) > 0 and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
+        if len(right_number[0]) > 0 and right_number[0] != '1' and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
+            return 1
+        if right_type[0] == left_type[t]:
             return 1
 #    if left_type[0] in right_type or right_type[0] in left_type:
 #        return 1
@@ -258,7 +262,7 @@ def compute_matching(pairs_df, dataset_df):
     print('>>> Computing matching...\n')
     dataset_df = dataset_df.set_index('spec_id')
     pairs_df['predict'] = pairs_df.swifter.apply(lambda row: product_match(row), axis=1)
-    #matching_pairs_df = pairs_df[pairs_df['label'] != pairs_df['predict']][['left_spec_id', 'right_spec_id', 'page_title_left', 'page_title_right', 'type_left', 'type_right', 'label', 'predict']]
+#    matching_pairs_df = pairs_df[pairs_df['label'] != pairs_df['predict']][['left_spec_id', 'right_spec_id', 'page_title_left', 'page_title_right', 'type_left', 'type_right', 'label', 'predict']]
     matching_pairs_df = pairs_df[pairs_df['predict'] == 1][['left_spec_id', 'right_spec_id']]
     print(matching_pairs_df.head(5))
     print('>>> Matching computed successfully!\n')
