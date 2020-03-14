@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import numpy as np
 import swifter
 import editdistance
 import pandas as pd
@@ -208,14 +209,17 @@ def get_block_pairs_df(df):
     return pairs_df
 
 def product_match(row):
-    if pd.isnull(row['type_left']) or pd.isnull(row['type_right']):
-        left_title = str(row['left_spec_title']).split(' ')
-        right_title = str(row['right_spec_title']).split(' ')
-        if len(left_title) == 0 or len(right_title) == 0:
+    try:
+        if pd.isnull(row['type_left']) or pd.isnull(row['type_right']):
+            left_title = str(row['left_spec_title']).split(' ')
+            right_title = str(row['right_spec_title']).split(' ')
+            if len(left_title) == 0 or len(right_title) == 0:
+                return 0
+            if len(set(left_title) & set(right_title)) / float(len(set(left_title) | set(right_title))) > 0.9:
+                return 1
             return 0
-        if len(set(left_title) & set(right_title)) / float(len(set(left_title) | set(right_title))) > 0.9:
-            return 1
-        return 0
+    except:
+        print (pd.isnull(row['type_left']), pd.isnull(row['type_right']), row['type_left'], row['type_right'])
     left_type = str(row['type_left']).split(';')
     right_type = str(row['type_right']).split(';')
     left_number = [''.join(re.findall(r'\d+', x)) for x in left_type]
@@ -230,6 +234,11 @@ def product_match(row):
             return 1
         if right_type[0] == left_type[t]:
             return 1
+    if len(left_type) > 1 and len(right_type) > 1:
+        if  re.findall(r'[a-z]+', right_type[1]) and len(right_number[1]) > 0 and left_type[1] == right_type[1]:
+            return 1
+    if row['blocking_key_left'] == 'sony' and row['blocking_key_right'] == 'sony' and len(set([3000,5000,6000]) & set(str(row['type_number_left']).split(';')) & set(str(row['type_number_right']).split(';'))) > 0:
+        return 1
 #    if left_type[0] in right_type or right_type[0] in left_type:
 #        return 1
 #    if not (pd.isnull(row['type_number_left']) or pd.isnull(row['type_number_right'])):
@@ -260,7 +269,7 @@ def compute_matching(pairs_df, dataset_df):
     """
 
     print('>>> Computing matching...\n')
-    dataset_df = dataset_df.set_index('spec_id')
+#    dataset_df = dataset_df.set_index('spec_id')
     pairs_df['predict'] = pairs_df.swifter.apply(lambda row: product_match(row), axis=1)
 #    matching_pairs_df = pairs_df[pairs_df['label'] != pairs_df['predict']][['left_spec_id', 'right_spec_id', 'page_title_left', 'page_title_right', 'type_left', 'type_right', 'label', 'predict']]
     matching_pairs_df = pairs_df[pairs_df['predict'] == 1][['left_spec_id', 'right_spec_id']]
@@ -295,11 +304,11 @@ if __name__ == '__main__':
     #dataset_df.loc[(dataset_df['blocking_key'] == 'philip'), 'blocking_key'] = 'philips'
     #dataset_df.loc[(dataset_df['blocking_key'] == 'pextex'), 'blocking_key'] = 'pentax'
     #print (dataset_df)
-    dataset_df = pd.read_csv('/home/sunji/EM_sigmod/total_with_key_type.csv')
+#    dataset_df = pd.read_csv('/home/sunji/EM_sigmod/total_with_key_type.csv')
     #pairs_df = get_block_pairs_df(dataset_df)
     pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/candidate_pairs_with_key_type.csv')
-#    pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/candidate_pairs_with_key_type.csv')
-    matching_pairs_df = compute_matching(pairs_df, dataset_df)
+#    pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/label_pairs_with_key_type.csv')
+    matching_pairs_df = compute_matching(pairs_df, None)
     # Save the submission as CSV file in the outputh_path
     matching_pairs_df.to_csv(outputh_path + '/submission.csv', index=False)
     print('>>> Submission file created in {} directory.'.format(outputh_path))
