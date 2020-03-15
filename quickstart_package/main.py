@@ -237,7 +237,7 @@ def product_match(row):
     if len(left_type) > 1 and len(right_type) > 1:
         if  re.findall(r'[a-z]+', right_type[1]) and len(right_number[1]) > 0 and left_type[1] == right_type[1]:
             return 1
-    if row['blocking_key_left'] == 'sony' and row['blocking_key_right'] == 'sony' and len(set([3000,5000,6000]) & set(str(row['type_number_left']).split(';')) & set(str(row['type_number_right']).split(';'))) > 0:
+    if row['blocking_key_left'] == 'sony' and row['blocking_key_right'] == 'sony' and len(set(['3000','5000','6000']) & set(str(row['type_number_left']).split(';')) & set(str(row['type_number_right']).split(';'))) > 0:
         return 1
 #    if left_type[0] in right_type or right_type[0] in left_type:
 #        return 1
