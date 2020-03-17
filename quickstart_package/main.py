@@ -225,13 +225,15 @@ def product_match(row):
     left_number = [''.join(re.findall(r'\d+', x)) for x in left_type]
     right_number = [''.join(re.findall(r'\d+', x)) for x in right_type]
     for t in range(len(right_type)):
-        if len(left_number[0]) > 0 and left_number[0] != '1' and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
-            return 1
+        if not ((left_type[0].startswith('5d') or left_type[0].startswith('t3') or left_type[0].startswith('t5')) and row['blocking_key_left'] == 'cannon'):
+            if len(left_number[0]) > 0 and left_number[0] != '1' and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
+                return 1
         if left_type[0] == right_type[t]:
             return 1
     for t in range(len(left_type)):
-        if len(right_number[0]) > 0 and right_number[0] != '1' and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
-            return 1
+        if not ((right_type[0].startswith('5d') or right_type[0].startswith('t3') or right_type[0].startswith('t5')) and row['blocking_key_right'] == 'cannon'):
+            if len(right_number[0]) > 0 and right_number[0] != '1' and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
+                return 1
         if right_type[0] == left_type[t]:
             return 1
     if len(left_type) > 1 and len(right_type) > 1:
