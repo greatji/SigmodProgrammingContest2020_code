@@ -226,7 +226,7 @@ def product_match(row):
     right_number = [''.join(re.findall(r'\d+', x)) for x in right_type]
     for t in range(len(right_type)):
         if len(left_number[0]) > 0 and left_number[0] != '1' and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
-            if ((row['blocking_key_left'] == 'cannon' and (left_type[0].startswith('xt') or left_type[0].startswith('5d') or left_type[0].startswith('1d') or left_type[0].startswith('7d') or left_type[0].startswith('t3') or left_type[0].startswith('t5') or left_type[0].startswith('t1') or left_type[0].startswith('t2') or left_type[0].startswith('t4'))) or (row['blocking_key_left'] == 'sony' and (left_type[0].startswith('nex5') or 'rx100' in left_type[0] or left_type[0].startswith('a7'))) or (row['blocking_key_left'] == 'nikon')):
+            if ((row['blocking_key_left'] == 'cannon' and (left_type[0].startswith('xt') or left_type[0].startswith('xs') or left_type[0].startswith('5d') or left_type[0].startswith('1d') or left_type[0].startswith('7d') or left_type[0].startswith('t3') or left_type[0].startswith('t5') or left_type[0].startswith('t1') or left_type[0].startswith('t2') or left_type[0].startswith('t4'))) or (row['blocking_key_left'] == 'sony' and (left_type[0].startswith('nex5') or 'rx100' in left_type[0] or left_type[0].startswith('a7'))) or (row['blocking_key_left'] == 'nikon')):
                 if str(row['version_left']) == str(row['version_right']) and (not pd.isnull(row['version_left']) or left_type[0][-1] == right_type[t][-1]):
                     return 1
             else:
@@ -235,7 +235,7 @@ def product_match(row):
             return 1
     for t in range(len(left_type)):
         if len(right_number[0]) > 0 and right_number[0] != '1' and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
-            if ((row['blocking_key_right'] == 'cannon' and (right_type[0].startswith('xt') or right_type[0].startswith('5d') or right_type[0].startswith('1d') or right_type[0].startswith('7d') or right_type[0].startswith('t3') or right_type[0].startswith('t5') or right_type[0].startswith('t1') or right_type[0].startswith('t2') or right_type[0].startswith('t4'))) or (row['blocking_key_right'] == 'sony' and (right_type[0].startswith('nex5') or 'rx100' in right_type[0] or right_type[0].startswith('a7'))) or (row['blocking_key_left'] == 'nikon')):
+            if ((row['blocking_key_right'] == 'cannon' and (right_type[0].startswith('xt') or right_type[0].startswith('xs') or right_type[0].startswith('5d') or right_type[0].startswith('1d') or right_type[0].startswith('7d') or right_type[0].startswith('t3') or right_type[0].startswith('t5') or right_type[0].startswith('t1') or right_type[0].startswith('t2') or right_type[0].startswith('t4'))) or (row['blocking_key_right'] == 'sony' and (right_type[0].startswith('nex5') or 'rx100' in right_type[0] or right_type[0].startswith('a7'))) or (row['blocking_key_left'] == 'nikon')):
                 if str(row['version_left']) == str(row['version_right']) and (not pd.isnull(row['version_left']) or right_type[0][-1] == left_type[t][-1]):
                     return 1
             else:
@@ -245,8 +245,8 @@ def product_match(row):
     if len(left_type) > 1 and len(right_type) > 1:
         if  re.findall(r'[a-z]+', right_type[1]) and len(right_number[1]) > 0 and left_type[1] == right_type[1] and str(row['version_left']) == str(row['version_right']):
             return 1
-    if len(left_type) == 1 and len(right_type) == 1 and len(left_number[0]) == 0 and len(right_number[0]) == 0 and not pd.isnull(row['blocking_key_left']) and (left_type[0] in right_type[0] or right_type[0] in left_type[0]):
-        return 1
+#    if len(left_type) == 1 and len(right_type) == 1 and len(left_number[0]) == 0 and len(right_number[0]) == 0 and not pd.isnull(row['blocking_key_left']) and (left_type[0] in right_type[0] or right_type[0] in left_type[0]):
+#        return 1
     if row['blocking_key_left'] == 'sony' and row['blocking_key_right'] == 'sony' and len(set(['3000','5000','6000']) & set(str(row['type_number_left']).split(';')) & set(str(row['type_number_right']).split(';'))) > 0:
         return 1
 #    if left_type[0] in right_type or right_type[0] in left_type:
