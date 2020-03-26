@@ -11,13 +11,14 @@ from tqdm import tqdm
 all_brands = set(['cannon',
  'nikon',
  'sony',
- 'olympus','pextax','digital blue','lytro','lowepro','ion','pov','fuifilm','philip','yashica','haier','konika','vivicam',
- 'pentax',
- 'ricoh',
+ 'olympus','pextax','digital blue','lytro','lowepro','pov','fuifilm','philip','yashica','haier','konika','vivicam',
+ 'pentax','dongjia',
+ 'ricoh', 'general electric',
  'panasonic',
  'samsung',
  'kodak',
  'fuji',
+ 'fugi'
  'casio',
  'toshiba',
  'canon',
@@ -215,7 +216,7 @@ def product_match(row):
             right_title = str(row['right_spec_title']).split(' ')
             if len(left_title) == 0 or len(right_title) == 0:
                 return 0
-            if len(set(left_title) & set(right_title)) / float(len(set(left_title) | set(right_title))) > 0.9:
+            if len(set(left_title) & set(right_title)) / float(len(set(left_title) | set(right_title))) > 0.8:
                 return 1
             return 0
     except:
@@ -305,7 +306,7 @@ if __name__ == '__main__':
     #dataset_df = create_dataframe(dataset_path)
     #dataset_df = compute_blocking(dataset_df)
     #dataset_df.loc[dataset_df['blocking_key'] == 'hikivision', 'blocking_key'] ='hikvision'
-    #dataset_df.loc[(dataset_df['blocking_key'] == 'fuijifilm') | (dataset_df['blocking_key'] == 'fujufilm') | (dataset_df['blocking_key'] == 'fijifilm') | (dataset_df['blocking_key'] == 'fiji film') | (dataset_df['blocking_key'] == 'finepix') | (dataset_df['blocking_key'] == 'fugi film') | (dataset_df['blocking_key'] == 'fugifilm') | (dataset_df['blocking_key'] == 'hello kitty'), 'blocking_key'] ='fuji'
+    #dataset_df.loc[(dataset_df['blocking_key'] == 'fuijifilm') | (dataset_df['blocking_key'] == 'fugi') | (dataset_df['blocking_key'] == 'fujufilm') | (dataset_df['blocking_key'] == 'fijifilm') | (dataset_df['blocking_key'] == 'fiji film') | (dataset_df['blocking_key'] == 'finepix') | (dataset_df['blocking_key'] == 'fugi film') | (dataset_df['blocking_key'] == 'fugifilm') | (dataset_df['blocking_key'] == 'hello kitty'), 'blocking_key'] ='fuji'
     #dataset_df.loc[(dataset_df['blocking_key'] == 'b h ') | (dataset_df['blocking_key'] == 'bell howell'), 'blocking_key'] ='bell+howell'
     #dataset_df.loc[(dataset_df['blocking_key'] == 'lumix'), 'blocking_key'] ='panasonic'
     #dataset_df.loc[(dataset_df['blocking_key'] == 'eos') | (dataset_df['blocking_key'] == 'canon'), 'blocking_key'] = 'cannon'
@@ -315,8 +316,9 @@ if __name__ == '__main__':
     #dataset_df.loc[(dataset_df['blocking_key'] == 'go pro'), 'blocking_key'] = 'gopro'
     #dataset_df.loc[(dataset_df['blocking_key'] == 'philip'), 'blocking_key'] = 'philips'
     #dataset_df.loc[(dataset_df['blocking_key'] == 'pextex'), 'blocking_key'] = 'pentax'
+    #dataset_df.loc[(dataset_df['blocking_key'] == 'ge '), 'blocking_key'] = 'general electric'
     #print (dataset_df)
-#    dataset_df = pd.read_csv('/home/sunji/EM_sigmod/total_with_key_type.csv')
+    #dataset_df = pd.read_csv('/home/sunji/EM_sigmod/total_with_key_type.csv')
     #pairs_df = get_block_pairs_df(dataset_df)
     pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/label_pairs_with_key_type.csv')
     matching_pairs_df = compute_matching(pairs_df, True)
