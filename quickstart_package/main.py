@@ -249,7 +249,7 @@ def product_match(row):
     right_number = [''.join(re.findall(r'\d+', x)) for x in right_type]
     for t in range(len(right_type)):
         if len(left_number[0]) > 0 and ('1' not in [left_type[0], right_type[t]]) and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
-            if ((row['blocking_key_left'] == 'cannon' and (left_type[0].startswith('xt') or left_type[0].startswith('xs') or left_type[0].startswith('5d') or left_type[0].startswith('1d') or left_type[0].startswith('7d') or left_type[0].startswith('t3') or left_type[0].startswith('t5') or left_type[0].startswith('t1') or left_type[0].startswith('t2') or left_type[0].startswith('t4'))) or (row['blocking_key_left'] == 'sony' and ('rx100' in left_type[0] or left_type[0].startswith('a77'))) or (row['blocking_key_left'] == 'nikon') or (row['blocking_key_left'] == 'fuji' and left_type[0].startswith('x100'))):
+            if ((row['blocking_key_left'] == 'cannon' and (left_type[0].startswith('xt') or left_type[0].startswith('xs') or left_type[0].startswith('5d') or left_type[0].startswith('1d') or left_type[0].startswith('7d') or left_type[0].startswith('t3') or left_type[0].startswith('t5') or left_type[0].startswith('t1') or left_type[0].startswith('t2') or left_type[0].startswith('t4'))) or (row['blocking_key_left'] == 'sony' and ('rx1' in left_type[0] or left_type[0].startswith('a77'))) or (row['blocking_key_left'] == 'nikon') or (row['blocking_key_left'] == 'fuji' and left_type[0].startswith('x100'))):
                 if str(row['version_left']) == str(row['version_right']) and (not pd.isnull(row['version_left']) or left_type[0][-1] == right_type[t][-1]):
                     return 1
             else:
@@ -258,7 +258,7 @@ def product_match(row):
             return 1
     for t in range(len(left_type)):
         if len(right_number[0]) > 0 and ('1' not in [left_type[t], right_type[0]]) and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
-            if ((row['blocking_key_right'] == 'cannon' and (right_type[0].startswith('xt') or right_type[0].startswith('xs') or right_type[0].startswith('5d') or right_type[0].startswith('1d') or right_type[0].startswith('7d') or right_type[0].startswith('t3') or right_type[0].startswith('t5') or right_type[0].startswith('t1') or right_type[0].startswith('t2') or right_type[0].startswith('t4'))) or (row['blocking_key_right'] == 'sony' and ('rx100' in right_type[0] or right_type[0].startswith('a77'))) or (row['blocking_key_right'] == 'nikon') or (row['blocking_key_right'] == 'fuji' and right_type[0].startswith('x100'))):
+            if ((row['blocking_key_right'] == 'cannon' and (right_type[0].startswith('xt') or right_type[0].startswith('xs') or right_type[0].startswith('5d') or right_type[0].startswith('1d') or right_type[0].startswith('7d') or right_type[0].startswith('t3') or right_type[0].startswith('t5') or right_type[0].startswith('t1') or right_type[0].startswith('t2') or right_type[0].startswith('t4'))) or (row['blocking_key_right'] == 'sony' and ('rx1' in right_type[0] or right_type[0].startswith('a77'))) or (row['blocking_key_right'] == 'nikon') or (row['blocking_key_right'] == 'fuji' and right_type[0].startswith('x100'))):
                 if str(row['version_left']) == str(row['version_right']) and (not pd.isnull(row['version_left']) or right_type[0][-1] == left_type[t][-1]):
                     return 1
             else:
@@ -362,4 +362,4 @@ if __name__ == '__main__':
     # Save the submission as CSV file in the outputh_path
     matching_pairs_df.to_csv(outputh_path + '/submission.csv', index=False)
     print('>>> Submission file created in {} directory.'.format(outputh_path))
-    
+
