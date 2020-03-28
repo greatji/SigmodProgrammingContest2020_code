@@ -8,9 +8,9 @@ import pandas as pd
 import itertools
 from tqdm import tqdm
 
-all_brands = set(['cannon','canon','eos',
+all_brands = set(['cannon','canon','eos','powershot',
  'nikon','coolpix','nicon',
- 'sony',
+ 'sony','effio',
  'olympus','olympul','olymus',
  'pextax','pentax',
  'digital blue',
@@ -248,8 +248,8 @@ def product_match(row):
     left_number = [''.join(re.findall(r'\d+', x)) for x in left_type]
     right_number = [''.join(re.findall(r'\d+', x)) for x in right_type]
     for t in range(len(right_type)):
-        if len(left_number[0]) > 0 and left_number[0] != '1' and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
-            if ((row['blocking_key_left'] == 'cannon' and (left_type[0].startswith('xt') or left_type[0].startswith('xs') or left_type[0].startswith('5d') or left_type[0].startswith('1d') or left_type[0].startswith('7d') or left_type[0].startswith('t3') or left_type[0].startswith('t5') or left_type[0].startswith('t1') or left_type[0].startswith('t2') or left_type[0].startswith('t4'))) or (row['blocking_key_left'] == 'sony' and ('rx100' in left_type[0] or left_type[0].startswith('a77'))) or (row['blocking_key_left'] == 'nikon')):
+        if len(left_number[0]) > 0 and ('1' not in [left_type[0], right_type[t]]) and left_number[0] == right_number[t] and (left_type[0] in right_type[t] or right_type[t] in left_type[0]):
+            if ((row['blocking_key_left'] == 'cannon' and (left_type[0].startswith('xt') or left_type[0].startswith('xs') or left_type[0].startswith('5d') or left_type[0].startswith('1d') or left_type[0].startswith('7d') or left_type[0].startswith('t3') or left_type[0].startswith('t5') or left_type[0].startswith('t1') or left_type[0].startswith('t2') or left_type[0].startswith('t4'))) or (row['blocking_key_left'] == 'sony' and ('rx100' in left_type[0] or left_type[0].startswith('a77'))) or (row['blocking_key_left'] == 'nikon') or (row['blocking_key_left'] == 'fuji' and left_type[0].startswith('x100'))):
                 if str(row['version_left']) == str(row['version_right']) and (not pd.isnull(row['version_left']) or left_type[0][-1] == right_type[t][-1]):
                     return 1
             else:
@@ -257,8 +257,8 @@ def product_match(row):
         if left_type[0] == right_type[t] and str(row['version_left']) == str(row['version_right']):
             return 1
     for t in range(len(left_type)):
-        if len(right_number[0]) > 0 and right_number[0] != '1' and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
-            if ((row['blocking_key_right'] == 'cannon' and (right_type[0].startswith('xt') or right_type[0].startswith('xs') or right_type[0].startswith('5d') or right_type[0].startswith('1d') or right_type[0].startswith('7d') or right_type[0].startswith('t3') or right_type[0].startswith('t5') or right_type[0].startswith('t1') or right_type[0].startswith('t2') or right_type[0].startswith('t4'))) or (row['blocking_key_right'] == 'sony' and ('rx100' in right_type[0] or right_type[0].startswith('a77'))) or (row['blocking_key_left'] == 'nikon')):
+        if len(right_number[0]) > 0 and ('1' not in [left_type[t], right_type[0]]) and left_number[t] == right_number[0] and (left_type[t] in right_type[0] or right_type[0] in left_type[t]):
+            if ((row['blocking_key_right'] == 'cannon' and (right_type[0].startswith('xt') or right_type[0].startswith('xs') or right_type[0].startswith('5d') or right_type[0].startswith('1d') or right_type[0].startswith('7d') or right_type[0].startswith('t3') or right_type[0].startswith('t5') or right_type[0].startswith('t1') or right_type[0].startswith('t2') or right_type[0].startswith('t4'))) or (row['blocking_key_right'] == 'sony' and ('rx100' in right_type[0] or right_type[0].startswith('a77'))) or (row['blocking_key_right'] == 'nikon') or (row['blocking_key_right'] == 'fuji' and right_type[0].startswith('x100'))):
                 if str(row['version_left']) == str(row['version_right']) and (not pd.isnull(row['version_left']) or right_type[0][-1] == left_type[t][-1]):
                     return 1
             else:
@@ -324,7 +324,7 @@ def compute_matching(pairs_df, isTest):
 if __name__ == '__main__':
     dataset_path = '/home/sunji/EM_sigmod/2013_camera_specs'
     outputh_path = './output'
-    '''    
+    ''' 
     dataset_df = pd.read_csv('/home/sunji/EM_sigmod/extracted_dataset.csv')
     #dataset_df = create_dataframe(dataset_path)
     dataset_df = compute_blocking(dataset_df)
@@ -332,7 +332,7 @@ if __name__ == '__main__':
     dataset_df.loc[dataset_df['blocking_key'].isin(['fuifilm','fuji','fugi','fujufilm', 'fijifilm','fiji film','finepix','fugi film', 'fugifilm','fuijifilm']), 'blocking_key'] ='fuji'
     dataset_df.loc[dataset_df['blocking_key'].isin(['bell+howell','b+w','bell howell','b h ']), 'blocking_key'] ='bell+howell'
     dataset_df.loc[dataset_df['blocking_key'].isin(['panasonic','lumix']), 'blocking_key'] ='panasonic'
-    dataset_df.loc[dataset_df['blocking_key'].isin(['cannon','canon','eos']), 'blocking_key'] = 'cannon'
+    dataset_df.loc[dataset_df['blocking_key'].isin(['cannon','canon','eos','powershot']), 'blocking_key'] = 'cannon'
     dataset_df.loc[dataset_df['blocking_key'].isin(['olympus','olympul','olymus']), 'blocking_key'] = 'olympus'
     dataset_df.loc[dataset_df['blocking_key'].isin(['nikon','coolpix','nicon']), 'blocking_key'] = 'nikon'
     dataset_df.loc[dataset_df['blocking_key'].isin(['gopro','go pro']), 'blocking_key'] = 'gopro'
@@ -343,9 +343,10 @@ if __name__ == '__main__':
     dataset_df.loc[dataset_df['blocking_key'].isin(['vivicam','vivitar','sakar']), 'blocking_key'] = 'sakar'
     dataset_df.loc[dataset_df['blocking_key'].isin(['kodak','kodax']), 'blocking_key'] = 'kodak'
     dataset_df.loc[dataset_df['blocking_key'].isin(['apple','iphone']), 'blocking_key'] = 'apple'
+    dataset_df.loc[dataset_df['blocking_key'].isin(['sony','effio']), 'blocking_key'] = 'sony'
     print (dataset_df.head(5))
     dataset_df.to_csv('/home/sunji/EM_sigmod/quickstart_package/extracted_dataset_key.csv', index=False)
-    
+     
     dataset_df = pd.read_csv('/home/sunji/EM_sigmod/total_with_key_type.csv')
     dataset_df = dataset_df.fillna('')
     pairs_df = get_block_pairs_df(dataset_df)
