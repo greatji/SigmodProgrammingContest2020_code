@@ -10,7 +10,11 @@ from tqdm import tqdm
 
 all_brands = set(['cannon','canon','eos','powershot',
  'nikon','coolpix','nicon',
+ 'bushnell',
+ 'carbose',
+ 'brinno',
  'sony','effio',
+ 'kavass',
  'olympus','olympul','olymus',
  'pextax','pentax',
  'digital blue',
@@ -31,12 +35,13 @@ all_brands = set(['cannon','canon','eos','powershot',
  'casio',
  'toshiba',
  'sanyo',
- 'hp',
+ 'hp ','hewlett packard',
  'hasselblad',
  'benq',
  'coleman',
  'polaroid',
  'cobra',
+ 'sharp',
  'svp',
  'vistaquest',
  'aiptek',
@@ -86,7 +91,6 @@ all_brands = set(['cannon','canon','eos','powershot',
  'lg ',
  'hello kitty',
  'kinon',
- 'intel',
  'aquapix',
  'apple','iphone',
  'keedox',
@@ -344,6 +348,7 @@ if __name__ == '__main__':
     dataset_df.loc[dataset_df['blocking_key'].isin(['kodak','kodax']), 'blocking_key'] = 'kodak'
     dataset_df.loc[dataset_df['blocking_key'].isin(['apple','iphone']), 'blocking_key'] = 'apple'
     dataset_df.loc[dataset_df['blocking_key'].isin(['sony','effio']), 'blocking_key'] = 'sony'
+    dataset_df.loc[dataset_df['blocking_key'].isin(['hp ','hewlett packard']), 'blocking_key'] = 'hp'
     print (dataset_df.head(5))
     dataset_df.to_csv('/home/sunji/EM_sigmod/quickstart_package/extracted_dataset_key.csv', index=False)
      
@@ -354,7 +359,7 @@ if __name__ == '__main__':
     '''
     pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/label_pairs_with_key_type.csv')
     matching_pairs_df = compute_matching(pairs_df, True)
-    if (len(matching_pairs_df) > 1):
+    if (len(matching_pairs_df) > 2):
         print ('>>> Not Working.')
     else:
         pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/candidate_pairs_with_key_type.csv')
