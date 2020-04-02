@@ -950,10 +950,29 @@ def compute_matching(pairs_df, isTest):
     4. create a Pandas DataFrame containing all the matching pairs accordingly with a matching function;
     5. export the Pandas DataFrame containing all the matching pairs in the "outputh_path" folder.
 """
+import sys, getopt
+
 if __name__ == '__main__':
+    
     dataset_path = '/home/sunji/EM_sigmod/2013_camera_specs'
+    output_path = '/home/sunji/EM_sigmod/quickstart_package/candidate_pairs_key.csv'   
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],"hi:o:",["ifile=","ofile="])
+    except getopt.GetoptError:
+        print ('main.py -i <inputfile> -o <outputfile>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print ('main.py -i <inputfile> -o <outputfile>')
+            sys.exit()
+        elif opt in ("-i", "--ifile"):
+            dataset_path = arg
+        elif opt in ("-o", "--ofile"):
+            output_path = arg
 
     dataset_df = load_dataset(dataset_path)
+
     print ('>>> Dataset Loading Completed')
     #dataset_df = create_dataframe(dataset_path)
     dataset_df = compute_blocking(dataset_df)
@@ -984,7 +1003,7 @@ if __name__ == '__main__':
     #dataset_df = pd.read_csv('/home/sunji/EM_sigmod/total_with_key_type.csv')
     #dataset_df = dataset_df.fillna('')
     pairs_df = get_block_pairs_df(dataset_df)
-    pairs_df.to_csv('/home/sunji/EM_sigmod/quickstart_package/candidate_pairs_key.csv', index=False)
+    pairs_df.to_csv(output_path+'/submission.csv', index=False)
     '''
     pairs_df = pd.read_csv('/home/sunji/EM_sigmod/quickstart_package/label_pairs_with_key_type.csv')
     matching_pairs_df = compute_matching(pairs_df, True)
