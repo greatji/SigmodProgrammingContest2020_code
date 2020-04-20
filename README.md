@@ -1,5 +1,5 @@
-# SigmodProgrammingContest2020_code
-Code of Entity Resolution Contest of Sigmod 2020 
+# Sigmod Programming Contest 2020
+Code of team `DBTHU` 
 [Finalist](http://www.inf.uniroma3.it/db/sigmod2020contest/leaders.html)
 
 ```bash
